@@ -5,6 +5,7 @@ import shutil
 from waypoint_modifier import modify_waypoints
 import zipfile
 import glob
+import datetime
 
 
 st.set_page_config(
@@ -51,7 +52,8 @@ def main():
             with status_container:
                 status = st.status(f"Processing {original_name}...")
                 try:
-                    output_filename = original_name.split('.kmz')[0] + "_MODIFIED.kmz"
+                    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+                    output_filename = f"{os.path.splitext(original_name)[0]}-MODIFIED-{timestamp}.kmz"
                     output_path = os.path.join(output_dir, output_filename)
                     
                     # Process the file
