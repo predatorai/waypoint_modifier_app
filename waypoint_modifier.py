@@ -296,7 +296,13 @@ def ensure_action_groups_parent(root, idx=0):
         raise RuntimeError("Cannot find kml:Document to place actionGroups")
     return parents[idx]
 
-def make_action_group(group_id, start_idx, end_idx, trigger_type, actions):
+def make_action_group(group_id, start_idx, end_idx, trigger_type, actions, total_count=1e9):
+    if trigger_type == "betweenAdjacentPoints":
+        # DJI cannot handle betweenAdjacentPoints on endpoints
+        start_idx = max(start_idx, 1)
+        end_idx = min(end_idx, total_count - 1)
+        if start_idx >= end_idx:
+            return None
     ag = etree.Element(etree.QName(WPML_NS, "actionGroup"))
     gid = etree.SubElement(ag, etree.QName(WPML_NS, "actionGroupId"))
     gid.text = str(group_id)
@@ -404,7 +410,7 @@ def add_start_timelapse(root, first_index, last_index, payload_position_index=0,
         start_params["payloadLensIndex"] = lens_index_text
 
     start_action = make_action(next_aid, "startTimeLapse", start_params)
-    ag_start = make_action_group(next_gid, first_index, last_index, "betweenAdjacentPoints", [start_action])
+    ag_start = make_action_group(next_gid, first_index, last_index, "betweenAdjacentPoints", [start_action], total_count=last_index+1)
     parent.append(ag_start)
 
 
@@ -455,7 +461,7 @@ def add_gimbal_evenly_rotate_blocks(root, n, total_count, payload_position_index
             trigger_type = "reachedWaypoint"
         else:
             trigger_type = "betweenAdjacentPoints"
-        ag = make_action_group(next_gid, start, end, trigger_type, [action])
+        ag = make_action_group(next_gid, start, end, trigger_type, [action], total_count)
         parent.append(ag)
 
         next_gid += 1
@@ -580,6 +586,6 @@ def modify_waypoints(input_path):
     s_seconds = 2.0   # desired time spacing between Placemarks
     n_block = 5       # evenly rotate over every 5-placemark block, alternating
 
-    return convert_area_route(input_path, s_seconds, n_block, debug_wpml_output=True)
+    return convert_area_route(input_path, s_seconds, n_block, debug_wpml_output=False)
 
 
