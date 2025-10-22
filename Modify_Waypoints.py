@@ -9,27 +9,8 @@ import glob
 
 st.set_page_config(
     page_title="Waypoint Modifier", 
-    layout="centered",
-    # page_icon="📍"
+    layout="centered"
 )
-
-# Set dark theme
-st.markdown("""
-    <style>
-        .stApp {
-            background-color: #0E1117;
-            color: #FAFAFA;
-        }
-        .stButton>button {
-            background-color: #1E88E5;
-            color: white;
-        }
-        .stDownloadButton>button {
-            background-color: #1E88E5;
-            color: white;
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 def main():
     st.title("KMZ Waypoint Modifier")
