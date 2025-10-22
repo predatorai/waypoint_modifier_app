@@ -4,7 +4,7 @@ import os
 st.set_page_config(page_title="KMZ Extraction Guide", layout="centered")
 print(os.getcwd())
 
-st.title("Extracting KMZ Files from DJI Flight Hub")
+st.title("Extract and Upload DJI Flight Hub KMZ Files")
 # st.write("""
 # DJI Flight Hub allows you to export mission data as `.kmz` files. Here's how to do it:
 # """)

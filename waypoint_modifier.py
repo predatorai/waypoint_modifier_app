@@ -579,8 +579,7 @@ def convert_area_route(kmz_in_fname, s_seconds, n_block, debug_wpml_output=False
 def modify_waypoints(input_path):
     s_seconds = 2.0   # desired time spacing between Placemarks
     n_block = 5       # evenly rotate over every 5-placemark block, alternating
-    kmz_in_fname = "/Users/kylelindgren/Downloads/Layhill-AreaRoute-Timed-Test2.kmz"
 
-    return convert_area_route(kmz_in_fname, s_seconds, n_block, debug_wpml_output=True)
+    return convert_area_route(input_path, s_seconds, n_block, debug_wpml_output=True)
 
 
